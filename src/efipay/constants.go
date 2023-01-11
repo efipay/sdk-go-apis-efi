@@ -1,6 +1,6 @@
 package efipay
 
-var Version = "3.0.0"
+var Version = "1.0.0"
 
 const (
 	UrlSandbox = "https://sandbox.gerencianet.com.br/v1"

@@ -1,6 +1,6 @@
 package open_finance
 
-var Version = "3.0.0"
+var Version = "1.0.0"
 
 const (
 	UrlSandbox = "https://apis-h.gerencianet.com.br"
