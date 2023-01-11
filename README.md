@@ -1,4 +1,4 @@
-<h1 align="center">SDK GoLang para APIs Efí Pay</h1>
+<h1 align="center">SDK Go para APIs Efí Pay</h1>
 
 ![Banner APIs Efí Pay](https://gnetbr.com/BJgSIUhlYs)
 
@@ -9,24 +9,16 @@
 
 ---
 
-[![Última versão estável](http://poser.pugx.org/efipay/sdk-go-apis-efi/v)](https://packagist.org/packages/efipay/sdk-go-apis-efi)
-[![Licença](http://poser.pugx.org/efipay/sdk-go-apis-efi/license)](https://packagist.org/packages/efipay/sdk-go-apis-efi)
-[![Total de downloads](http://poser.pugx.org/efipay/sdk-go-apis-efi/downloads)](https://packagist.org/packages/efipay/sdk-go-apis-efi)
-[![Code Climate](https://codeclimate.com/github/efipay/sdk-go-apis-efi/badges/gpa.svg)](https://codeclimate.com/github/efipay/sdk-go-apis-efi)
-
 SDK em GoLang para integração com as APIs Efí para emissão de Pix, boletos, carnês, cartão de crédito, assinatura, link de pagamento, marketplance, Pix via Open Finance, pagamento de boletos, dentre outras funcionalidades.
 Para mais informações sobre [parâmetros](http://sejaefi.com.br/api) e [valores/tarifas](http://sejaefi.com.br/tarifas) consulte nosso site.
 
 Ir para:
-* [Requisitos](#requisitos)
 * [Testado com](#testado-com)
 * [Instalação](#instalação)
 * [Começando](#começando)
   * [Como obter as credenciais Client_Id e Client_Secret](#como-obter-as-credenciais-client-id-e-client-secret)
   * [Como gerar certificado Pix](#como-gerar-um-certificado-pix)
   * [Como cadastrar chave Pix](#como-cadastrar-as-chaves-pix)
-* [Executar exemplos](#executar-exemplos)
-* [Guia de versão](#guia-de-versão)
 * [Documentação Adicional](#documentação-adicional)
 * [Licença](#licença)
 
