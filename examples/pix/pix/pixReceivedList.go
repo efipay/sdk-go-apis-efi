@@ -18,8 +18,8 @@ func main(){
 		// "txid" : "00000000000000000000000000000000000",
 		// "txIdPresente" : true,
 		// "devolucaoPresente" : false,
-		// "cpf" : "12345678909", // Filter by payer's CPF. It cannot be used at the same time as the CNPJ.
-		// "cnpj" : "12345678909", // Filter by payer's CNPJ. It cannot be used at the same time as the CPF.
+		// "cpf" : "12345678909", // Filtrar pelo CPF do pagador. Nao pode ser usado ao mesmo tempo que CNPJ.
+		// "cnpj" : "12345678909", // Filtrar pelo CNPJ do pagador. Nao pode ser usado ao mesmo tempo que CPF.
 		// "paginacao.paginaAtual" : 1,
 		// "paginacao.itensPorPagina" : 10,
 	}

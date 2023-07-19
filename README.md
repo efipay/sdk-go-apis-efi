@@ -32,7 +32,6 @@ go 1.8, 1.11.4, 1.16.5 and 1.19.2
 ## **Instalação**
 Clone este repositório e execute o seguinte comando para instalar as dependências
 ```
-go get github.com/efipay/sdk-go-apis-efi/src/efipay
 go mod init github.com/efipay/sdk-go-apis-efi
 ```
 

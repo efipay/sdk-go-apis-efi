@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/efipay/sdk-go-apis-efi/src/efipay/pix"
+	"github.com/efipay/sdk-go-apis-efi/src/efipay/open_finance"
 	"github.com/efipay/sdk-go-apis-efi/examples/configs"
 )
 

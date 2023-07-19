@@ -12,7 +12,7 @@ func main(){
 	efi := pix.NewEfiPay(credentials)
 
 	body := map[string]interface{} {}	
-	const chave = ""
+	const chave = "" //sua chave Pix Efí
 	
 	
 

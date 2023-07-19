@@ -4,5 +4,5 @@ var Version = "1.0.0"
 
 const (
 	UrlSandbox = ""
-	UrlProduction = "https://apis.gerencianet.com.br"
+	UrlProduction = "https://pagarcontas.api.efipay.com.br/v1"
 )

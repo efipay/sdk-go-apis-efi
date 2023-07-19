@@ -8,19 +8,19 @@ type endpoints struct {
 
 func (endpoints endpoints) OfListParticipants(nome string) (string, error) {
 	params := map[string]string{ "nome": (nome) }
-	return endpoints.requester.request("/open-finance/participantes", "GET", params, nil, nil)
+	return endpoints.requester.request("/participantes", "GET", params, nil, nil)
 }
 
 func (endpoints endpoints) OfConfigUpdate(body map[string]interface{})(string, error) {
-	return endpoints.requester.request("/open-finance/config", "PUT", nil, body, nil)
+	return endpoints.requester.request("/config", "PUT", nil, body, nil)
 }
 
 func (endpoints endpoints) OfConfigDetail() (string, error) {
-	return endpoints.requester.request("/open-finance/config", "GET", nil, nil, nil)
+	return endpoints.requester.request("/config", "GET", nil, nil, nil)
 }
 
 func (endpoints endpoints) OfDevolutionPix(body map[string]interface{}) (string, error) {
-	return endpoints.requester.request("/open-finance/devolucao/pagamento/pix", "POST", nil, body, nil)
+	return endpoints.requester.request("/devolucao/pagamento/pix", "POST", nil, body, nil)
 }
 
 func (endpoints endpoints) OfListPixPayment(inicio string, fim string) (string, error) {
@@ -28,10 +28,10 @@ func (endpoints endpoints) OfListPixPayment(inicio string, fim string) (string, 
 		"inicio": (inicio),
 		"fim": (fim),
 	}
-	return endpoints.requester.request("/open-finance/pagamentos/pix", "GET", params, nil, nil)
+	return endpoints.requester.request("/pagamentos/pix", "GET", params, nil, nil)
 }
 
 func (endpoints endpoints) OfStartPixPayment(body map[string]interface{}, headers map[string]string) (string, error) {
-	return endpoints.requester.request("/open-finance/pagamentos/pix", "POST", nil, body, headers)
+	return endpoints.requester.request("/pagamentos/pix", "POST", nil, body, headers)
 }
 

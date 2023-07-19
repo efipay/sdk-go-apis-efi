@@ -29,7 +29,7 @@ func main(){
 				"original": "00.01",
 			
 		},
-		"chave": "177f47c8-0ebd-4b9b-a941-f54babba72ba",
+		"chave": "",
 		"solicitacaoPagador": "Teste.",
 		"infoAdicionais": []map[string]interface{} {
 			{

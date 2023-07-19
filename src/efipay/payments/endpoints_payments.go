@@ -7,17 +7,17 @@ type endpoints struct {
 }
 
 func (endpoints endpoints) PayDetailBarCode(params map[string]string) (string, error) {
-	return endpoints.requester.request("/pagamento/codBarras/:codBarras", "GET", params, nil)
+	return endpoints.requester.request("/codBarras/:codBarras", "GET", params, nil)
 }
 
 func (endpoints endpoints) PayDetailPayment(params map[string]string)(string, error) {
-	return endpoints.requester.request("/pagamento/:idPagamento", "GET", params, nil)
+	return endpoints.requester.request("/:idPagamento", "GET", params, nil)
 }
 
 func (endpoints endpoints) PayListPayments(params map[string]string) (string, error) {
-	return endpoints.requester.request("/pagamento/resumo", "GET", params, nil)
+	return endpoints.requester.request("/resumo", "GET", params, nil)
 }
 
 func (endpoints endpoints) PayRequestBarCode(params map[string]string, body map[string]interface{}) (string, error) {
-	return endpoints.requester.request("/pagamento/codBarras/:codBarras", "POST", params, body)
+	return endpoints.requester.request("/codBarras/:codBarras", "POST", params, body)
 }
