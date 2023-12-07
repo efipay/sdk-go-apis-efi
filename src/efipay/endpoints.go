@@ -41,6 +41,11 @@ func (endpoints endpoints) CancelCharge(chargeID int) (string, error) {
 	return endpoints.requester.request("/charge/:id/cancel", "PUT", params, nil)
 }
 
+func (endpoints endpoints) RetryCharge(chargeID int, body map[string]interface{}) (string, error) {
+	params := map[string]string{ "id": strconv.Itoa(chargeID) }
+	return endpoints.requester.request("/charge/:id/retry", "POST", params, body)
+}
+
 func (endpoints endpoints) CreateCarnet(body map[string]interface{}) (string, error) {
 	return endpoints.requester.request("/carnet", "POST", nil, body)
 }
@@ -123,6 +128,11 @@ func (endpoints endpoints) UpdateSubscriptionMetadata(subscriptionID int, body m
 func (endpoints endpoints) SendSubscriptionLinkEmail(chargeID int, body map[string]interface{}) (string, error) {
 	params := map[string]string{ "id": strconv.Itoa(chargeID) }
 	return endpoints.requester.request("/charge/:id/subscription/resend", "POST", params, body)
+}
+
+func (endpoints endpoints) UpdateSubscription(chargeID int, body map[string]interface{}) (string, error) {
+	params := map[string]string{ "id": strconv.Itoa(chargeID) }
+	return endpoints.requester.request("/subscription/:id", "PUT", params, body)
 }
 
 func (endpoints endpoints) GetInstallments(total int, brand string) (string, error) {

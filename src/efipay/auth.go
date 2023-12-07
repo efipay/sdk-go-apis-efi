@@ -50,6 +50,7 @@ func (auth auth) getAccessToken() (authResponseBody, error) {
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("charset", "utf-8")
 	req.Header.Add("api-sdk", "go-" + Version)
+	//req.Header.Add("partner_token"+partnerToken)
 
 	res, resErr := auth.netClient.Do(req)
 

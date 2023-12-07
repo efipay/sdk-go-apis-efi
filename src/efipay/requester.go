@@ -71,6 +71,8 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 	req.Header.Add("accept", "application/json")
 	req.Header.Add("api-sdk", "go-" + Version)
 	req.Header.Add("Authorization", "Bearer "+requester.Token)
+	//req.Header.Add("partner_token"+partnerToken)
+
 	res, resErr := requester.netClient.Do(req)
 
 	if resErr != nil {

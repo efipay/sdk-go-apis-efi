@@ -17,17 +17,19 @@ func main(){
 		"phone_number": "5144916523",
 	}
 
-	body := map[string]interface{} {
-		"items": []map[string]interface{}{
-			{
-				"name": "Product 1",
-				"value": 1000,
-				"amount": 2,
-			},
+	items := []map[string]interface{}{
+		{
+			"name": "Product 1",
+			"value": 1000,
+			"amount": 2,
 		},
+	}
+
+	body := map[string]interface{} {
+		"items": items,
 		"payment": map[string]interface{} {
 			"banking_billet": map[string]interface{} {
-				"expire_at": "2022-12-12",
+				"expire_at": "2023-12-12",
 				"customer": customer,
 			},
 		},

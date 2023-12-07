@@ -45,7 +45,7 @@ func main(){
 		},
 	}
 
-	res, err := efi.CreateOneStepSubscription(93454, body) // no lugar do 1 coloque o plan_id correto
+	res, err := efi.CreateOneStepSubscription(1, body) // no lugar do 1 coloque o plan_id correto
 
 	if err != nil {
 		fmt.Println(err)
