@@ -1,10 +1,10 @@
 package efipay
 
-type efipay struct {
+type Efipay struct {
 	endpoints
 }
 
-func NewEfiPay(configs map[string]interface{}) *efipay {
+func NewEfiPay(configs map[string]interface{}) *Efipay {
 	clientID := configs["client_id"].(string)
 	clientSecret := configs["client_secret"].(string)
 	sandbox := configs["sandbox"].(bool)
@@ -12,7 +12,7 @@ func NewEfiPay(configs map[string]interface{}) *efipay {
 	//partner_token := configs["partner_token"].(string)
 
 	requester := newRequester(clientID, clientSecret, sandbox, timeout)
-	efi := efipay{}
+	efi := Efipay{}
 	efi.requester = *requester
 	return &efi
 }

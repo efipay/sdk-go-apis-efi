@@ -65,11 +65,11 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 	route += getQueryString(requestParams)
 	req, _ := http.NewRequest(httpVerb, requester.url+route, requestBody)
 
-	if ( httpVerb == "POST" || httpVerb == "PUT" ) && body != nil  {
+	if (httpVerb == "POST" || httpVerb == "PUT") && body != nil {
 		req.Header.Add("Content-Type", "application/json")
 	}
 	req.Header.Add("accept", "application/json")
-	req.Header.Add("api-sdk", "go-" + Version)
+	req.Header.Add("api-sdk", "go-"+Version)
 	req.Header.Add("Authorization", "Bearer "+requester.Token)
 	//req.Header.Add("partner_token"+partnerToken)
 
