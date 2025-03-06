@@ -2,15 +2,15 @@ package pix
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
 	"time"
-	"crypto/tls"
 )
 
 type requester struct {
@@ -27,15 +27,15 @@ type requester struct {
 }
 
 func newRequester(clientID string, clientSecret string, CA string, Key string, sandbox bool, timeout int) *requester {
-	auth := newAuth(clientID, clientSecret,CA, Key, sandbox, timeout)
+	auth := newAuth(clientID, clientSecret, CA, Key, sandbox, timeout)
 	var cert, _ = tls.LoadX509KeyPair(CA, Key)
-	
+
 	var netTransport = &http.Transport{
 		TLSClientConfig: &tls.Config{
 			Certificates: []tls.Certificate{cert},
 		},
 	}
-	httpClient := &http.Client{Timeout: time.Second * time.Duration(timeout),Transport: netTransport}
+	httpClient := &http.Client{Timeout: time.Second * time.Duration(timeout), Transport: netTransport}
 	var gnURL string
 	if sandbox {
 		gnURL = UrlSandbox
@@ -57,6 +57,51 @@ func authenticate(requester *requester) (bool, error) {
 	return true, nil
 }
 
+func (requester requester) request2(endpoint string, httpVerb string, requestParams map[string]string, body map[string]interface{}, headers map[string]string) (string, error) {
+	requestBody := new(bytes.Buffer)
+	json.NewEncoder(requestBody).Encode(body)
+
+	_, authErr := authenticate(&requester)
+	if authErr != nil {
+		_, authErr = authenticate(&requester)
+	}
+	if authErr != nil {
+		return "", authErr
+	}
+
+	route := getRoute(endpoint, requestParams)
+	route += getQueryString(requestParams)
+	req, _ := http.NewRequest(httpVerb, requester.url+route, requestBody)
+
+	if (httpVerb == "POST" || httpVerb == "PUT") && body != nil {
+		req.Header.Add("Content-Type", "application/json")
+	}
+	req.Header.Add("accept", "application/json")
+	req.Header.Add("api-sdk", "go-"+Version)
+	req.Header.Add("Authorization", "Bearer "+requester.Token)
+	if headers != nil {
+		for key, value := range headers {
+			req.Header.Add(key, value)
+		}
+	}
+	res, resErr := requester.netClient.Do(req)
+
+	if resErr != nil {
+		return "", resErr
+	}
+
+	defer res.Body.Close()
+
+	reqResp, _ := io.ReadAll(res.Body)
+	response := string(reqResp)
+
+	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
+		return "", errors.New(response)
+	}
+
+	return response, nil
+}
+
 func (requester requester) request(endpoint string, httpVerb string, requestParams map[string]string, body map[string]interface{}) (string, error) {
 	requestBody := new(bytes.Buffer)
 	json.NewEncoder(requestBody).Encode(body)
@@ -73,11 +118,11 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 	route += getQueryString(requestParams)
 	req, _ := http.NewRequest(httpVerb, requester.url+route, requestBody)
 
-	if ( httpVerb == "POST" || httpVerb == "PUT" ) && body != nil  {
+	if (httpVerb == "POST" || httpVerb == "PUT") && body != nil {
 		req.Header.Add("Content-Type", "application/json")
 	}
 	req.Header.Add("accept", "application/json")
-	req.Header.Add("api-sdk", "go-" + Version)
+	req.Header.Add("api-sdk", "go-"+Version)
 	req.Header.Add("Authorization", "Bearer "+requester.Token)
 	res, resErr := requester.netClient.Do(req)
 
@@ -87,10 +132,10 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 
 	defer res.Body.Close()
 
-	reqResp, _ := ioutil.ReadAll(res.Body)
+	reqResp, _ := io.ReadAll(res.Body)
 	response := string(reqResp)
 
-	if (res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated) {
+	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
 		return "", errors.New(response)
 	}
 
