@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gerencianet/gn-api-sdk-go/src/efipay/pix"
-	"github.com/gerencianet/gn-api-sdk-go/examples/configs"
+	"github.com/efipay/sdk-go-apis-efi/src/efipay/pix"
+	"github.com/efipay/sdk-go-apis-efi/examples/configs"
 )
 
 func main(){
