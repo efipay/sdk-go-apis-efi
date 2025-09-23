@@ -1,10 +1,14 @@
-# 3.0.1 
+# 1.4.0
+
+ - The go.mod file was created at the project root.
+
+# 1.3.0
 
 - Added: new endpoints (automatic pix)
 - Updated: location (creation new folder locRec)
 - Fix: request (add Content-Type configuration: Now, PATCH type requests with body)
 
-# 3.0.0
+# 1.2.1
 
 - Added: new endpoints and apis
 
