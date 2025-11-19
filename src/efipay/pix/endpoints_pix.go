@@ -10,9 +10,8 @@ func (endpoints endpoints) CreateImmediateCharge(body map[string]interface{}) (s
 	return endpoints.requester.request("/v2/cob", "POST", nil, body)
 }
 
-
 func (endpoints endpoints) CreateCharge(txid string, body map[string]interface{}) (string, error) {
-	params := map[string]string{ "txid": (txid) }
+	params := map[string]string{"txid": (txid)}
 	return endpoints.requester.request("/v2/cob/:txid", "PUT", params, body)
 }
 
@@ -61,6 +60,22 @@ func (endpoints endpoints) PixSendList(e2eid string) (string, error) {
 func (endpoints endpoints) PixSendDetail(e2eid string) (string, error) {
 	params := map[string]string{"e2eid": (e2eid)}
 	return endpoints.requester.request("/v2/gn/pix/enviados/:e2eid", "GET", params, nil)
+}
+
+func (endpoints endpoints) PixSendSameOwnership(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/gn/pix/:idEnvio/mesma-titularidade", "PUT", params, body)
+}
+
+func (endpoints endpoints) PixSendDetailId(params map[string]string) (string, error) {
+	return endpoints.requester.request("/v2/gn/pix/enviados/id-envio/:idEnvio", "GET", params, nil)
+}
+
+func (endpoints endpoints) PixQrCodePay(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/gn/pix/:idEnvio/qrcode", "PUT", params, body)
+}
+
+func (endpoints endpoints) PixQrCodeDetail(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/gn/qrcodes/detalhar", "POST", nil, body)
 }
 
 func (endpoints endpoints) PixCreateLocation(body map[string]interface{}) (string, error) {
@@ -138,6 +153,34 @@ func (endpoints endpoints) PixListWebhooks(inicio string, fim string) (string, e
 	return endpoints.requester.request("/v2/webhook?inicio=:inicio&fim=:fim", "GET", params, nil)
 }
 
+func (endpoints endpoints) PixResendWebhook(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request(" /v2/gn/webhook/reenviar", "POST", nil, body)
+}
+
+func (endpoints endpoints) PixConfigWebhookRecurrenceAutomatic(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookrec", "PUT", params, body)
+}
+
+func (endpoints endpoints) PixListWebhookRecurrenceAutomatic(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookrec", "GET", nil, body)
+}
+
+func (endpoints endpoints) PixDeleteWebhookRecurrenceAutomatic(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookrec", "DELETE", nil, body)
+}
+
+func (endpoints endpoints) PixConfigWebhookAutomaticCharge(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookcobr", "PUT", params, body)
+}
+
+func (endpoints endpoints) PixListWebhookAutomaticCharge(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookcobr", "GET", nil, body)
+}
+
+func (endpoints endpoints) PixDeleteWebhookAutomaticCharge(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/webhookcobr", "DELETE", nil, body)
+}
+
 func (endpoints endpoints) CreateDueCharge(txid string, body map[string]interface{}) (string, error) {
 	params := map[string]string{"txid": (txid)}
 	return endpoints.requester.request("/v2/cobv/:txid", "PUT", params, body)
@@ -164,6 +207,22 @@ func (endpoints endpoints) CreateReport(body map[string]interface{}) (string, er
 func (endpoints endpoints) DetailReport(id string) (string, error) {
 	params := map[string]string{"id": (id)}
 	return endpoints.requester.request("/v2/gn/relatorios/:id", "GET", params, nil)
+}
+
+func (endpoints endpoints) MedList(params map[string]string) (string, error) {
+	return endpoints.requester.request("/v2/gn/infracoes", "GET", params, nil)
+}
+
+func (endpoints endpoints) MedDefense(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/gn/infracoes/:idInfracao/defesa", "POST", params, body)
+}
+
+func (endpoints endpoints) PixKeysBucket(body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/gn/chaves/balde", "GET", nil, body)
+}
+
+func (endpoints endpoints) PixGetReceipt(params map[string]string) (string, error) {
+	return endpoints.requester.request("/v2/gn/pix/comprovantes", "GET", params, nil)
 }
 
 func (endpoints endpoints) PixReceivedList(params map[string]string) (string, error) {
@@ -298,7 +357,6 @@ func (endpoints endpoints) PixUpdateRequestRecurrenceAutomatic(idSolicRec string
 	return endpoints.requester.request("/v2/solicrec/:idSolicRec", "PATCH", params, body)
 }
 
-
 func (endpoints endpoints) PixDetailLocationRecurrenceAutomatic(id string) (string, error) {
 	params := map[string]string{"id": (id)}
 	return endpoints.requester.request("/v2/locrec/:id", "GET", params, nil)
@@ -319,4 +377,20 @@ func (endpoints endpoints) PixUnlinkLocationRecurrenceAutomatic(id string) (stri
 
 func (endpoints endpoints) PixCreateImmediateCharge(body map[string]interface{}) (string, error) {
 	return endpoints.requester.request("/v2/cob", "POST", nil, body)
+}
+
+func (endpoints endpoints) PixCreateDueChargeBatch(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/cobr/:txid", "PUT", params, body)
+}
+
+func (endpoints endpoints) PixUpdateDueChargeBatch(params map[string]string, body map[string]interface{}) (string, error) {
+	return endpoints.requester.request("/v2/solicrec/:idSolicRec", "PATCH", params, body)
+}
+
+func (endpoints endpoints) PixDetailDueChargeBatch(params map[string]string) (string, error) {
+	return endpoints.requester.request("/v2/locrec/:id", "GET", params, nil)
+}
+
+func (endpoints endpoints) PixListDueChargeBatch(params map[string]string) (string, error) {
+	return endpoints.requester.request("/v2/locrec/:id", "GET", params, nil)
 }

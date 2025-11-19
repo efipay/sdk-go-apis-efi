@@ -1,3 +1,7 @@
+# 1.5.0
+
+- Added: new endpoints and apis
+
 # 1.4.0
 
  - The go.mod file was created at the project root.

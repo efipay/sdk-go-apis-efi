@@ -2,15 +2,16 @@ package pix
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strings"
 	"time"
-	"crypto/tls"
 )
 
 type requester struct {
@@ -27,15 +28,32 @@ type requester struct {
 }
 
 func newRequester(clientID string, clientSecret string, CA string, Key string, sandbox bool, timeout int) *requester {
-	auth := newAuth(clientID, clientSecret,CA, Key, sandbox, timeout)
-	var cert, _ = tls.LoadX509KeyPair(CA, Key)
-	
+	auth := newAuth(clientID, clientSecret, CA, Key, sandbox, timeout)
+	var cert, err = tls.LoadX509KeyPair(CA, Key)
+
+	if err != nil {
+		errorMessage := err.Error()
+
+		if strings.Contains(errorMessage, "x509: negative serial number") ||
+			strings.Contains(errorMessage, "failed to parse") {
+			detailedErr := fmt.Errorf(
+				"falha CRÍTICA ao carregar o certificado para autenticação (mTLS). "+
+					"causa: O certificado possui um número de série negativo, o que é rejeitado por versões recentes do Go (a partir do Go 1.23+). "+
+					"atencção: Este não é um problema da SDK. "+
+					"solução: 1) Troque por um certificado X.509 conforme. 2) Contorne a validação no ambiente de execução do Go com 'export GODEBUG=x509negativeserial=1'. "+
+					"erro original: %w", err)
+
+			panic(detailedErr)
+		}
+		panic(fmt.Errorf("erro ao carregar o par de chaves/certificado: %w", err))
+	}
+
 	var netTransport = &http.Transport{
 		TLSClientConfig: &tls.Config{
 			Certificates: []tls.Certificate{cert},
 		},
 	}
-	httpClient := &http.Client{Timeout: time.Second * time.Duration(timeout),Transport: netTransport}
+	httpClient := &http.Client{Timeout: time.Second * time.Duration(timeout), Transport: netTransport}
 	var gnURL string
 	if sandbox {
 		gnURL = UrlSandbox
@@ -73,11 +91,11 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 	route += getQueryString(requestParams)
 	req, _ := http.NewRequest(httpVerb, requester.url+route, requestBody)
 
-	if ( httpVerb == "POST" || httpVerb == "PUT" ||  httpVerb == "PATCH") && body != nil  {
+	if (httpVerb == "POST" || httpVerb == "PUT" || httpVerb == "PATCH") && body != nil {
 		req.Header.Add("Content-Type", "application/json")
 	}
 	req.Header.Add("accept", "application/json")
-	req.Header.Add("api-sdk", "go-" + Version)
+	req.Header.Add("api-sdk", "go-"+Version)
 	req.Header.Add("Authorization", "Bearer "+requester.Token)
 	res, resErr := requester.netClient.Do(req)
 
@@ -90,7 +108,7 @@ func (requester requester) request(endpoint string, httpVerb string, requestPara
 	reqResp, _ := ioutil.ReadAll(res.Body)
 	response := string(reqResp)
 
-	if (res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated) {
+	if res.StatusCode != http.StatusOK && res.StatusCode != http.StatusCreated {
 		return "", errors.New(response)
 	}
 
